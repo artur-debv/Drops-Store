@@ -1,11 +1,12 @@
 "use client";
 
 import { ProductWithTotalPrice } from "@/helpers/product";
+import { Decimal } from "@prisma/client/runtime/library";
 import { ReactNode, createContext, useEffect, useMemo, useState } from "react";
 
 export interface CartProduct extends ProductWithTotalPrice {
   id: any;
-  basePrice(basePrice: any): unknown;
+  basePrice: Decimal;
   imageUrls: any;
   description: string;
   name: string;

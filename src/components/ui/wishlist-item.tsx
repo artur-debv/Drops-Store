@@ -1,6 +1,7 @@
 import { Prisma } from "@prisma/client";
 import Image from "next/image";
 import DiscountBadge from "./discount-badge";
+import removeItems from '../../assets/removeItems.png';
 
 interface WishlistItemProps {
   product: Prisma.ProductGetPayload<{
@@ -12,35 +13,48 @@ interface WishlistItemProps {
 
 const WishlistItem = ({ product }: WishlistItemProps) => {
   return (
-    <div className="flex flex-col gap-4">
-      <div className="relative flex aspect-square h-40 w-40 rounded-lg bg-accent">
-        <Image
-          src={product.imageUrls[0]}
-          height={0}
-          width={0}
-          sizes="100vw"
-          className="h-auto max-h-[70%] w-auto max-w-[80%] object-contain"
-          alt={product.name}
-        />
-        {product.discountPercentage > 0 && (
-          <DiscountBadge className="absolute left-[6rem] top-3">
-            {product.discountPercentage}
-          </DiscountBadge>
-        )}
-      </div>
-
-      <div className="flex flex-col gap-1">
-        <div className="flex">
-          <p className="truncate text-sm">{product.name}</p>
+    <div className="flex items-center justify-between gap-4 p-4">
+      {/* Product Information */}
+      <div className="flex items-center gap-4">
+        {/* Product Image */}
+        <div className="relative flex h-24 w-24 items-center justify-center rounded-lg bg-accent">
+          <Image
+            src={product.imageUrls[0]}
+            height={0}
+            width={0}
+            sizes="100vw"
+            className="h-auto max-h-[70%] w-auto max-w-[80%] object-contain"
+            alt={product.name}
+          />
+          {product.discountPercentage > 0 && (
+            <DiscountBadge className="absolute left-3 top-3">
+              {product.discountPercentage}
+            </DiscountBadge>
+          )}
         </div>
-        <div className="flex">
-          <p className="truncate text-sm font-semibold">
+
+        {/* Product Details */}
+        <div className="flex flex-col">
+          <p className="truncate text-sm font-medium">{product.name}</p>
+          <p className="text-sm font-semibold">
             R$ {product.basePrice.toFixed(2)}
           </p>
         </div>
-
-        <div></div>
       </div>
+
+      {/* Remove Button */}
+      <button
+        className="group flex items-center gap-2 p-2text-white"
+      >
+        <Image 
+          src={removeItems} 
+          alt="Remover item" 
+          width={20} 
+          height={20} 
+          className="group-hover:scale-110 transition-transform"
+        />
+        <span className="text-sm font-medium">Remover</span>
+      </button>
     </div>
   );
 };

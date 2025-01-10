@@ -48,8 +48,9 @@ async function WishListPage() {
         variant="outline"
       >
         <Heart size={16} />
-       olá
+        Favoritos
       </Badge>
+
       <div className="mt-4 grid grid-cols-2 gap-8">
         {wishlist.map((product) => (
           <WishlistItem key={product.id} product={product} />

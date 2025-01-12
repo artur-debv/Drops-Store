@@ -9,10 +9,9 @@ interface WishlistItemProps {
       wishLists: true;
     };
   }>;
-  onRemove: () => void;  // Função para remover o produto
 }
 
-const WishlistItem = ({ product, onRemove }: WishlistItemProps) => {
+const WishlistItem = ({ product }: WishlistItemProps) => {
   return (
     <div className="flex items-center justify-between gap-4 p-4">
       {/* Product Information */}
@@ -46,16 +45,12 @@ const WishlistItem = ({ product, onRemove }: WishlistItemProps) => {
       {/* Remove Button */}
       <button
         className="group flex items-center gap-2 p-2text-white"
-        onClick={() => {
-          console.log("Remover clicado!");
-          onRemove();
-        }}
       >
-        <Image
-          src={removeItems}
-          alt="Remover item"
-          width={20}
-          height={20}
+        <Image 
+          src={removeItems} 
+          alt="Remover item" 
+          width={20} 
+          height={20} 
           className="group-hover:scale-110 transition-transform"
         />
         <span className="text-sm font-medium">Remover</span>

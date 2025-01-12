@@ -17,28 +17,6 @@ async function WishListPage() {
     );
   }
 
-  const productToRemove = await prismaClient.product.findFirst({
-    where: {
-      wishLists: {
-        some: {
-          userId: session.user.id,
-        },
-      },
-    },
-  });
-
-  if (productToRemove) {
-    const removedProduct = await prismaClient.product.delete({
-      where: {
-        id: productToRemove.id,
-      },
-    });
-
-    console.log('Produto removido:', removedProduct);
-  } else {
-    console.log('Nenhum produto encontrado na lista de desejos do usuário.');
-  }
-
   const wishlist = await prismaClient.product.findMany({
     where: {
       wishLists: {
@@ -75,12 +53,7 @@ async function WishListPage() {
 
       <div className="mt-4 grid grid-cols-2 gap-8">
         {wishlist.map((product) => (
-          <WishlistItem
-            key={product.id}
-            product={product}
-            onRemove={function (): void {
-              throw new Error("Function not implemented.");
-            }} />
+          <WishlistItem key={product.id} product={product} />
         ))}
       </div>
     </div>

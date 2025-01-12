@@ -4,6 +4,7 @@ import { authOptions } from "@/lib/auth";
 import { prismaClient } from "@/lib/prisma";
 import { Heart } from "lucide-react";
 import { getServerSession } from "next-auth";
+import RemoveButton from "@/components/ui/ButtonRemove";  // Importando o botão de remoção
 
 async function WishListPage() {
   const session = await getServerSession(authOptions);
@@ -53,7 +54,10 @@ async function WishListPage() {
 
       <div className="mt-4 grid grid-cols-2 gap-8">
         {wishlist.map((product) => (
-          <WishlistItem key={product.id} product={product} />
+          <div key={product.id} className="flex flex-col items-center">
+            <WishlistItem product={product} />
+            <RemoveButton productId={product.id} /> {/* Usando o botão de remoção */}
+          </div>
         ))}
       </div>
     </div>

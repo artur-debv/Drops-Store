@@ -45,21 +45,9 @@ const WishlistItem = ({ product }: WishlistItemProps) => {
       </div>
 
       {/* Remove Button */}
-      <button
-        onClick={() => {
-          console.log("deu erro");
-        }}
-        className="group flex items-center gap-2 p-2text-white"
-      >
-        <Image
-          src={removeItems}
-          alt="Remover item"
-          width={20}
-          height={20}
-          className="group-hover:scale-110 transition-transform"
-        />
-        <span className="text-sm font-medium">Remover</span>
-      </button>
+     <button onClick={()=>{
+      console.log("Aqui")
+     }}></button>
     </div>
   );
 };

@@ -17,35 +17,27 @@ async function WishListPage() {
     );
   }
 
-  const removeFromWishlist = async (productId: string) => {
-    // Remover o produto da lista de desejos no banco
-    await prismaClient.wishList.deleteMany({
-      where: {
-        userId: session.user.id,
-        products: {
-          some: {
-            id: productId,
-          },
+  const productToRemove = await prismaClient.product.findFirst({
+    where: {
+      wishLists: {
+        some: {
+          userId: session.user.id,
         },
+      },
+    },
+  });
+
+  if (productToRemove) {
+    const removedProduct = await prismaClient.product.delete({
+      where: {
+        id: productToRemove.id,
       },
     });
 
-    // Atualizar a lista de desejos
-    const updatedWishlist = await prismaClient.product.findMany({
-      where: {
-        wishLists: {
-          some: {
-            userId: session.user.id,
-          },
-        },
-      },
-      include: {
-        wishLists: true,
-      },
-    });
-
-    return updatedWishlist;
-  };
+    console.log('Produto removido:', removedProduct);
+  } else {
+    console.log('Nenhum produto encontrado na lista de desejos do usuário.');
+  }
 
   const wishlist = await prismaClient.product.findMany({
     where: {
@@ -86,8 +78,9 @@ async function WishListPage() {
           <WishlistItem
             key={product.id}
             product={product}
-           onRemove={() => removeFromWishlist(product.id)}
-          />
+            onRemove={function (): void {
+              throw new Error("Function not implemented.");
+            }} />
         ))}
       </div>
     </div>

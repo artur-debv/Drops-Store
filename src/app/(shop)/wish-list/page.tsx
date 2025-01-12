@@ -1,43 +1,12 @@
-import { useState, useEffect } from "react";
 import { Badge } from "@/components/ui/badge";
 import WishlistItem from "@/components/ui/wishlist-item";
 import { authOptions } from "@/lib/auth";
 import { prismaClient } from "@/lib/prisma";
 import { Heart } from "lucide-react";
 import { getServerSession } from "next-auth";
-import { Prisma } from "@prisma/client";
-
-interface Product extends Prisma.ProductGetPayload<{
-  include: {
-    wishLists: true;
-  };
-}> { }
 
 async function WishListPage() {
   const session = await getServerSession(authOptions);
-  const [wishlist, setWishlist] = useState<Product[]>([]);
-
-  useEffect(() => {
-    async function fetchWishlist() {
-      if (session && session.user) {
-        const products: Product[] = await prismaClient.product.findMany({
-          where: {
-            wishLists: {
-              some: {
-                userId: session.user.id,
-              },
-            },
-          },
-          include: {
-            wishLists: true,
-          },
-        });
-        setWishlist(products);
-      }
-    }
-
-    fetchWishlist();
-  }, [session]);
 
   if (!session || !session.user) {
     return (
@@ -48,9 +17,18 @@ async function WishListPage() {
     );
   }
 
-  const handleRemove = (productId: string) => {
-    setWishlist((prev) => prev.filter((product) => product.id !== productId));
-  };
+  const wishlist = await prismaClient.product.findMany({
+    where: {
+      wishLists: {
+        some: {
+          userId: session.user.id,
+        },
+      },
+    },
+    include: {
+      wishLists: true,
+    },
+  });
 
   if (!wishlist.length) {
     return (
@@ -75,7 +53,7 @@ async function WishListPage() {
 
       <div className="mt-4 grid grid-cols-2 gap-8">
         {wishlist.map((product) => (
-          <WishlistItem key={product.id} product={product} onRemove={handleRemove} />
+          <WishlistItem key={product.id} product={product} />
         ))}
       </div>
     </div>

@@ -17,6 +17,34 @@ async function WishListPage() {
     );
   }
 
+  // Function to remove item from wishlist
+  const handleRemoveItem = async (productId: string) => {
+    await prismaClient.wishList.deleteMany({
+      where: {
+        products: {
+          some: {
+            id: productId,
+          },
+        },
+        userId: session.user.id,
+      },
+    });
+    // Re-fetch wishlist after removing item
+    const updatedWishlist = await prismaClient.product.findMany({
+      where: {
+        wishLists: {
+          some: {
+            userId: session.user.id,
+          },
+        },
+      },
+      include: {
+        wishLists: true,
+      },
+    });
+    return updatedWishlist;
+  };
+
   const wishlist = await prismaClient.product.findMany({
     where: {
       wishLists: {
@@ -53,7 +81,11 @@ async function WishListPage() {
 
       <div className="mt-4 grid grid-cols-2 gap-8">
         {wishlist.map((product) => (
-          <WishlistItem key={product.id} product={product} />
+          <WishlistItem
+            key={product.id}
+            product={product}
+            onRemove={() => handleRemoveItem(product.id)}
+          />
         ))}
       </div>
     </div>

@@ -9,9 +9,10 @@ interface WishlistItemProps {
       wishLists: true;
     };
   }>;
+  onRemove: () => void; // New prop to handle the removal action
 }
 
-const WishlistItem = ({ product }: WishlistItemProps) => {
+const WishlistItem = ({ product, onRemove }: WishlistItemProps) => {
   return (
     <div className="flex items-center justify-between gap-4 p-4">
       {/* Product Information */}
@@ -45,6 +46,7 @@ const WishlistItem = ({ product }: WishlistItemProps) => {
       {/* Remove Button */}
       <button
         className="group flex items-center gap-2 p-2text-white"
+        onClick={onRemove} // Trigger the onRemove handler
       >
         <Image 
           src={removeItems} 

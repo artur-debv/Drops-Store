@@ -2,7 +2,7 @@ import { Prisma } from "@prisma/client";
 import Image from "next/image";
 import DiscountBadge from "./discount-badge";
 import removeItems from '../../assets/removeItems.png';
-
+import { prismaClient } from "@/lib/prisma";
 interface WishlistItemProps {
   product: Prisma.ProductGetPayload<{
     include: {
@@ -10,6 +10,8 @@ interface WishlistItemProps {
     };
   }>;
 }
+
+
 
 const WishlistItem = ({ product }: WishlistItemProps) => {
   return (
@@ -44,13 +46,16 @@ const WishlistItem = ({ product }: WishlistItemProps) => {
 
       {/* Remove Button */}
       <button
+        onClick={() => {
+          console.log("deu erro");
+        }}
         className="group flex items-center gap-2 p-2text-white"
       >
-        <Image 
-          src={removeItems} 
-          alt="Remover item" 
-          width={20} 
-          height={20} 
+        <Image
+          src={removeItems}
+          alt="Remover item"
+          width={20}
+          height={20}
           className="group-hover:scale-110 transition-transform"
         />
         <span className="text-sm font-medium">Remover</span>

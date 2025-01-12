@@ -1,7 +1,9 @@
-import { Prisma } from "@prisma/client";
+// WishlistItem.js
+
 import Image from "next/image";
 import DiscountBadge from "./discount-badge";
 import removeItems from '../../assets/removeItems.png';
+import { Prisma } from "@prisma/client";
 
 interface WishlistItemProps {
   product: Prisma.ProductGetPayload<{
@@ -9,9 +11,14 @@ interface WishlistItemProps {
       wishLists: true;
     };
   }>;
+  onRemove: (productId: string) => void;
 }
 
-const WishlistItem = ({ product }: WishlistItemProps) => {
+const WishlistItem = ({ product, onRemove }: WishlistItemProps) => {
+  const handleRemove = () => {
+    onRemove(product.id);
+  };
+
   return (
     <div className="flex items-center justify-between gap-4 p-4">
       {/* Product Information */}
@@ -44,7 +51,8 @@ const WishlistItem = ({ product }: WishlistItemProps) => {
 
       {/* Remove Button */}
       <button
-        className="group flex items-center gap-2 p-2text-white"
+        className="group flex items-center gap-2 p-2"
+        onClick={handleRemove}
       >
         <Image 
           src={removeItems} 

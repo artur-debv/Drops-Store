@@ -43,11 +43,6 @@ const WishlistItem = ({ product }: WishlistItemProps) => {
           </p>
         </div>
       </div>
-
-      {/* Remove Button */}
-     <button onClick={()=>{
-      console.log("Aqui")
-     }}></button>
     </div>
   );
 };

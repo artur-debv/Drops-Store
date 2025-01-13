@@ -1,27 +1,30 @@
-// ButtonRemove.tsx
-'use client';  // Isso indica que o componente é renderizado no lado do cliente
+'use client';
 
 import React from "react";
 
 interface ButtonRemoveProps {
-  productId: string; // O ID do produto que será excluído
-  onRemove?: () => void; // Função opcional para executar algo após a remoção
+  productId: string;
+  wishListId: string;
+  onRemove?: () => void;
 }
 
-const ButtonRemove: React.FC<ButtonRemoveProps> = ({ productId, onRemove }) => {
+
+const ButtonRemove: React.FC<ButtonRemoveProps> = ({ productId, wishListId, onRemove }) => {
   const handleRemove = async () => {
     try {
-      const response = await fetch("api/products/delete", {
+      const response = await fetch("http://localhost:3000/api/delete", { // Caminho correto para a API
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ productId }),
+        body: JSON.stringify({ productId, wishListId }),
       });
+
+      console.log(productId,wishListId)
 
       if (response.ok) {
         alert("Produto removido com sucesso!");
-        if (onRemove) onRemove(); // Chama a função de callback se ela foi passada
+        if (onRemove) onRemove();
       } else {
         const errorData = await response.json();
         alert(`Erro ao remover produto: ${errorData.error}`);

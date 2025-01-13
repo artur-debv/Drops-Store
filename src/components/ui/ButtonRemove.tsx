@@ -11,7 +11,7 @@ interface ButtonRemoveProps {
 const ButtonRemove: React.FC<ButtonRemoveProps> = ({ productId, onRemove }) => {
   const handleRemove = async () => {
     try {
-      const response = await fetch("/app/shop/api/products/delete", {
+      const response = await fetch("api/products/delete", {
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",

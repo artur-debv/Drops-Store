@@ -8,20 +8,24 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         return res.status(405).json({ error: "Método não permitido" });
     }
 
-    const { productId } = req.body; // Certifique-se de que o `productId` está vindo no corpo da requisição
+    const { productId, wishListId } = req.body; // Agora esperamos que o `productId` e o `wishListId` venham no corpo da requisição.
 
-    if (!productId) {
-        return res.status(400).json({ error: "ID do produto não fornecido" });
+    if (!productId || !wishListId) {
+        return res.status(400).json({ error: "ID do produto ou da wishlist não fornecido" });
     }
 
     try {
-        await prismaClient.product.delete({
-            where: { id: productId },
+        // Excluindo o produto da wishlist na tabela WishListProducts
+        await prismaClient.wishListProducts.deleteMany({
+            where: {
+                productId,
+                wishListId,
+            },
         });
 
-        return res.status(200).json({ message: "Produto removido com sucesso!" });
+        return res.status(200).json({ message: "Produto removido com sucesso da wishlist!" });
     } catch (error) {
-        console.error("Erro ao excluir produto:", error);
-        return res.status(500).json({ error: "Erro ao excluir produto" });
+        console.error("Erro ao excluir produto da wishlist:", error);
+        return res.status(500).json({ error: "Erro ao excluir produto da wishlist" });
     }
 }

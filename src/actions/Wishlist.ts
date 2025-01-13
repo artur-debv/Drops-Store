@@ -47,4 +47,12 @@ export const addProductToWishlist = async (
             },
         },
     });
+
+    await prismaClient.product.delete({
+        where:{
+            id:productId
+        }
+    })
+
 };
+

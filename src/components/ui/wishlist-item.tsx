@@ -1,8 +1,7 @@
 import { Prisma } from "@prisma/client";
 import Image from "next/image";
 import DiscountBadge from "./discount-badge";
-import removeItems from '../../assets/removeItems.png';
-import { prismaClient } from "@/lib/prisma";
+
 interface WishlistItemProps {
   product: Prisma.ProductGetPayload<{
     include: {

@@ -20,6 +20,8 @@ const ButtonRemove: React.FC<ButtonRemoveProps> = ({ productId, wishListId, onRe
         body: JSON.stringify({ productId, wishListId }),
       });
 
+      console.log(productId)
+      console.log(wishListId)
     
       if (response.ok) {
         alert("Produto removido com sucesso!");

@@ -12,9 +12,11 @@ export async function DELETE(request: Request) {
   }
 
   try {
-    await prismaClient.product.deleteMany({
+
+    await prismaClient.wishListProducts.deleteMany({
       where: {
-        id: productId,
+          productId,
+          wishListId,
       },
     });
 

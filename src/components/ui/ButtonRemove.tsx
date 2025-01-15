@@ -5,18 +5,19 @@ import React from "react";
 
 interface ButtonRemoveProps {
   productId: string; // O ID do produto que será excluído
+  wishListId: string;
   onRemove?: () => void; // Função opcional para executar algo após a remoção
 }
 
-const ButtonRemove: React.FC<ButtonRemoveProps> = ({ productId, onRemove }) => {
+const ButtonRemove: React.FC<ButtonRemoveProps> = ({ productId, onRemove, wishListId }) => {
   const handleRemove = async () => {
     try {
-      const response = await fetch("api/products/delete", {
+      const response = await fetch("api/delete", {
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ productId }),
+        body: JSON.stringify({ productId, wishListId }),
       });
 
       if (response.ok) {

@@ -12,7 +12,7 @@ interface ButtonRemoveProps {
 const ButtonRemove: React.FC<ButtonRemoveProps> = ({ productId, wishListId, onRemove }) => {
   const handleRemove = async () => {
     try {
-      const response = await fetch("api/delete", { // Caminho correto para a API
+      const response = await fetch("http://localhost:3000/api/delete", { // Caminho correto para a API
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",

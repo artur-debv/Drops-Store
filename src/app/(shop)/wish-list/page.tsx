@@ -56,7 +56,7 @@ async function WishListPage() {
         {wishlist.map((product) => (
           <div key={product.id} className="flex flex-col items-center">
             <WishlistItem product={product} />
-            <RemoveButton productId={product.id} wishListId={product.wishLists[0].id} />
+            <RemoveButton productId={product.id} />
           </div>
         ))}
       </div>

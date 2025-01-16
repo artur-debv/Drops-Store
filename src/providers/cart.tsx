@@ -5,9 +5,9 @@ import { Decimal } from "@prisma/client/runtime/library";
 import { ReactNode, createContext, useEffect, useMemo, useState } from "react";
 
 export interface CartProduct extends ProductWithTotalPrice {
-  id: any;
+  id: string;
   basePrice: Decimal;
-  imageUrls: any;
+  imageUrls: string[];
   description: string;
   name: string;
   quantity: number;
@@ -35,10 +35,10 @@ export const CartContext = createContext<ICartContext>({
   total: 0,
   subtotal: 0,
   totalDiscount: 0,
-  addProductToCart: () => {},
-  decreaseProductQuantity: () => {},
-  increaseProductQuantity: () => {},
-  removeProductFromCart: () => {},
+  addProductToCart: () => { },
+  decreaseProductQuantity: () => { },
+  increaseProductQuantity: () => { },
+  removeProductFromCart: () => { },
 });
 
 const CartProvider = ({ children }: { children: ReactNode }) => {

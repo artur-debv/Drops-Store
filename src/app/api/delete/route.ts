@@ -4,7 +4,6 @@ export async function DELETE(request: Request) {
   const body = await request.json();
   const { productId, wishListId } = body;
 
-  console.log(body)
 
   if (!productId || !wishListId) {
     return Response.json(
@@ -14,18 +13,24 @@ export async function DELETE(request: Request) {
   }
 
   try {
-
-    const deleted = await prismaClient.wishList.deleteMany({
+    // Atualizando para deletar da tabela intermediária `wishListProducts`
+    const deleted = await prismaClient.wishListProducts.deleteMany({
       where: {
-          products: {
-            some: {
-              id: productId
-            }
-          },
-      },
+       wishListId,
+       productId
+      }
     });
 
-    console.log(deleted)
+    console.log(deleted);
+    console.log(productId)
+    console.log(wishListId)
+
+    if (deleted.count === 0) {
+      return Response.json(
+        { error: "Produto não encontrado na wishlist" },
+        { status: 404 }
+      );
+    }
 
     return Response.json(
       { message: "Produto removido com sucesso da wishlist!" },

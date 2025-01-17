@@ -30,8 +30,6 @@ model Product {
   discountPercentage Int            @default(0)
   OrderProduct       OrderProduct[]
   wishLists          WishList[]     @relation("WishListProducts")
-
-  WishListProducts WishListProducts[]
 }
 
 model Order {
@@ -105,17 +103,6 @@ model WishList {
   user     User      @relation(fields: [userId], references: [id])
   userId   String
   products Product[] @relation("WishListProducts")
-
-  WishListProducts WishListProducts[]
-}
-
-model WishListProducts {
-  Product    Product  @relation(fields: [productId], references: [id])
-  productId  String
-  WishList   WishList @relation(fields: [wishListId], references: [id])
-  wishListId String
-
-  @@id([productId, wishListId])
 }
 
 model VerificationToken {

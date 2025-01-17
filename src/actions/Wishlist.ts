@@ -10,15 +10,17 @@ export const addProductToWishlist = async (
     let wishlist;
 
     if (wishlistId) {
+        // Encontrar a wishlist pelo ID
         wishlist = await prismaClient.wishList.findFirstOrThrow({
             where: {
                 userId: userId,
                 id: wishlistId,
             },
         });
-    } 
-    
-    if(!wishlistId) {
+    }
+
+    if (!wishlistId) {
+        // Se não fornecer wishlistId, encontrar ou criar uma nova
         wishlist = await prismaClient.wishList.findFirst({
             where: {
                 userId: userId,
@@ -26,6 +28,7 @@ export const addProductToWishlist = async (
         });
 
         if (!wishlist) {
+            // Se não existir, criar uma nova wishlist
             wishlist = await prismaClient.wishList.create({
                 data: {
                     userId: userId,
@@ -35,18 +38,15 @@ export const addProductToWishlist = async (
         }
     }
 
-    await prismaClient.product.update({
-        where: {
-            id: productId,
-        },
-        data: {
-            wishLists: {
-                connect: {
-                    id: wishlist!.id,
-                },
+    // Adicionando o produto à wishlist na tabela de relacionamento
+    if (wishlist) {
+        await prismaClient.wishListProducts.create({
+            data: {
+                productId: productId,
+                wishListId: wishlist.id,
             },
-        },
-    });
-
+        });
+    } else {
+        throw new Error("Wishlist not found");
+    }
 };
-

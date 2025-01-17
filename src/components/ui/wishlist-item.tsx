@@ -3,11 +3,7 @@ import Image from "next/image";
 import DiscountBadge from "./discount-badge";
 
 interface WishlistItemProps {
-  product: Prisma.ProductGetPayload<{
-    include: {
-      wishLists: true;
-    };
-  }>;
+  product: Prisma.ProductGetPayload<Prisma.ProductArgs>;
 }
 
 

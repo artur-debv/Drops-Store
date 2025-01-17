@@ -9,6 +9,7 @@ import RemoveButton from "@/components/ui/ButtonRemove";  // Importando o botão
 async function WishListPage() {
   const session = await getServerSession(authOptions);
 
+  // Verificando se o usuário está logado
   if (!session || !session.user) {
     return (
       <div className="flex h-full flex-col items-center justify-center gap-2 p-5">
@@ -18,19 +19,24 @@ async function WishListPage() {
     );
   }
 
+  // Obtendo os produtos da wishlist do usuário
   const wishlist = await prismaClient.product.findMany({
     where: {
-      wishLists: {
+      wishlists: {
         some: {
-          userId: session.user.id,
+          wishList: {
+            userId: session.user.id, // Filtrando pela relação com o usuário
+          },
         },
       },
     },
     include: {
-      wishLists: true,
+      wishlists: true, // Incluindo a relação com a tabela wishlists
     },
   });
 
+
+  // Verificando se o usuário tem produtos na wishlist
   if (!wishlist.length) {
     return (
       <div className="flex h-full flex-col items-center justify-center gap-2 p-5">
@@ -55,8 +61,10 @@ async function WishListPage() {
       <div className="mt-4 grid grid-cols-2 gap-8">
         {wishlist.map((product) => (
           <div key={product.id} className="flex flex-col items-center">
-            <WishlistItem product={product} />
-            <RemoveButton productId={product.id} wishListId={product.wishLists[0].id} /> 
+            {/* Passando os dados corretos do produto para o componente WishlistItem */}
+            <WishlistItem key={product.id} product={product} />
+            {/* Corrigindo a referência ao wishListId */}
+            <RemoveButton productId={product.id} wishListId={product.wishlists[0].id} />
           </div>
         ))}
       </div>

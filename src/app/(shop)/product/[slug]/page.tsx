@@ -30,7 +30,7 @@ const ProductDetailsPage = async ({
           },
         },
       },
-      wishLists: true,
+      wishlists: true,
     },
   });
 
@@ -46,6 +46,11 @@ const ProductDetailsPage = async ({
           product={{
             ...product,
             totalPrice: computeProductTotalPrice(product),
+            wishLists: product.wishlists.map(wishlist => ({
+              ...wishlist,
+              name: "Default Name", // Replace with actual name if available
+              userId: "Default UserId" // Replace with actual userId if available
+            })),
           }}
         />
       </div>

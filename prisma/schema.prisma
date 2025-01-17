@@ -19,17 +19,17 @@ model Category {
 }
 
 model Product {
-  id                 String         @id @default(uuid())
+  id                 String             @id @default(uuid())
   name               String
   slug               String
   description        String
-  basePrice          Decimal        @db.Decimal(8, 2)
+  basePrice          Decimal            @db.Decimal(8, 2)
   imageUrls          String[]
   categoryId         String
-  category           Category       @relation(fields: [categoryId], references: [id])
-  discountPercentage Int            @default(0)
+  category           Category           @relation(fields: [categoryId], references: [id])
+  discountPercentage Int                @default(0)
   OrderProduct       OrderProduct[]
-  wishLists          WishList[]     @relation("WishListProducts")
+  wishlists          WishListProducts[]
 }
 
 model Order {
@@ -98,11 +98,21 @@ model User {
 }
 
 model WishList {
-  id       String    @id @default(uuid())
+  id       String             @id @default(uuid())
   name     String
-  user     User      @relation(fields: [userId], references: [id])
+  user     User               @relation(fields: [userId], references: [id])
   userId   String
-  products Product[] @relation("WishListProducts")
+  products WishListProducts[]
+}
+
+model WishListProducts {
+  id         String   @default(uuid())
+  productId  String
+  product    Product  @relation(fields: [productId], references: [id])
+  wishListId String
+  wishList   WishList @relation(fields: [wishListId], references: [id])
+
+  @@id([productId, wishListId])
 }
 
 model VerificationToken {

@@ -14,10 +14,12 @@ export async function DELETE(request: Request) {
 
   try {
     // Atualizando para deletar da tabela intermediária `wishListProducts`
-    const deleted = await prismaClient.wishListProducts.deleteMany({
+    const deleted = await prismaClient.wishListProducts.delete({
       where: {
-       wishListId,
-       productId
+        productId_wishListId: {
+          wishListId,
+          productId
+        }
       }
     });
 
@@ -25,7 +27,7 @@ export async function DELETE(request: Request) {
     console.log(productId)
     console.log(wishListId)
 
-    if (deleted.count === 0) {
+    if (!deleted) {
       return Response.json(
         { error: "Produto não encontrado na wishlist" },
         { status: 404 }

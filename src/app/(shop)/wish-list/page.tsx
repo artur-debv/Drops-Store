@@ -64,7 +64,7 @@ async function WishListPage() {
             {/* Passando os dados corretos do produto para o componente WishlistItem */}
             <WishlistItem key={product.id} product={product} />
             {/* Corrigindo a referência ao wishListId */}
-            <RemoveButton productId={product.id} wishListId={product.wishlists[0].id} />
+            <RemoveButton productId={product.id} wishListId={product.wishlists[0].wishListId} />
           </div>
         ))}
       </div>

@@ -4,7 +4,7 @@ import { authOptions } from "@/lib/auth";
 import { prismaClient } from "@/lib/prisma";
 import { Heart } from "lucide-react";
 import { getServerSession } from "next-auth";
-import RemoveButton from "@/components/ui/ButtonRemove";  // Importando o botão de remoção
+import RemoveButton from "@/components/ui/WishListRemove/ButtonRemove";  // Importando o botão de remoção
 
 async function WishListPage() {
   const session = await getServerSession(authOptions);

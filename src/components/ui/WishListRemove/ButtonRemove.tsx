@@ -16,7 +16,7 @@ const ButtonRemove: React.FC<ButtonRemoveProps> = ({ productId, wishListId, onRe
 
   const handleRemove = async () => {
     try {
-      const response = await fetch("http://localhost:3000/api/delete", { // Caminho correto para a API
+      const response = await fetch("https://drops-store.vercel.app/api/delete", { // Caminho correto para a API
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",
